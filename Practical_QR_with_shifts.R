@@ -48,7 +48,7 @@ eigenvalues <- function(M, n = 1000, tol = 1e-3){ # P in case of symmetric M con
   }
   names(eigenvals) <- NULL
   if(ncol(M) > 2){
-    P <- hess$Q %*% P
+    P <- t(hess$Q) %*% P
   }
   eigenvects <- Solve.Eigenvect(M, eigenvals, P)
   return(list("eigenvalues" = eigenvals, "eigenvectors" = eigenvects))

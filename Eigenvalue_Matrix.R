@@ -102,7 +102,7 @@ compute.Q <- function(m){
 }
 
 # Efficient QR decomposition
-Eff.QR <- function(mat, check_rank = FALSE){
+Eff.QR <- function(mat){
   R.diags = numeric(ncol(mat))
   
   for (i in 1:ncol(mat)) {
@@ -238,14 +238,14 @@ eigenvalues <- function(M, n = 1000, tol = 1e-8){ # P in case of symmetric M con
   return(list("eigenvalues" = eigenvals, "P" = P))
 }
 
-PCA.eigenval <- function(dataset, method = "noshift", ...){
-  cov_mat <- compute_covariance(dataset)
-  if(method == "shift")
-    eigenvalues.shift(cov_mat, ...)
-  else if(method == "noshift")
-    eigenvalues.wo.shifts(cov_mat, ...)
-  else
-    eigenvalues(cov_mat)
+eigenval <- function(dataset, method = "noshift", ...){
+  tryCatch({
+    if(method == "shift")
+      eigenvalues.shift(dataset, ...)
+    else if(method == "noshift")
+      eigenvalues.wo.shifts(dataset, ...)
+    else
+      eigenvalues(dataset)}, error = function(e) print("Error!Try some Other Method/tol/n..."))
 }
 
 # If it's a csv file which contains the Data Matrix
@@ -254,13 +254,11 @@ dataset <- as.matrix(read.csv(file.choose(), header = FALSE))
 # If it's already loaded in R(eg. as data) it should be in a form of a matrix, then you can simply run the bottom command
 # dataset <- data
 
-# Now You can Find the Eigenvalues of the Covariance Matrix Associated with the Dataset, by running the function PCA.eigenval.
-# Function takes inputs dataset, method = "shift"/"noshift"/"simple", tol = <some value of tolerance to detect convergence>, n = <Maximum Number of iterations allowed>
-# By default it uses "noshift" with 1e-8 tolerance and 1000 maximum iterations
-PCA.eigenval(dataset)
-#eigen(cov(dataset))
+# Eigenvalue calculates the eigen value of a matrix
+eigenval(dataset)
+# eigen(dataset)
 
 # Examples:
-# PCA.eigenval(dataset, method = "noshift", tol = 1e-10, n = 1500)
-# PCA.eigenval(dataset, method = "shift", tol = 1e-10, n = 1500)
-# PCA.eigenval(dataset, method = "simple", tol = 1e-10, n = 1500)
+# eigenval(dataset, method = "noshift", tol = 1e-10, n = 1500)
+# eigenval(dataset, method = "shift", tol = 1e-10, n = 1500)
+# eigenval(dataset, method = "simple", tol = 1e-10, n = 1500)

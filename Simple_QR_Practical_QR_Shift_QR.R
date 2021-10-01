@@ -7,7 +7,7 @@ eigenvalues <- function(M, n = 1000, tol = 1e-3){ # P in case of symmetric M con
     M <- QR$R %*% QR$Q
     P <- P %*% QR$Q
     new_M <- diag(M)
-    if(sum((new_M - old_M)^2, na.rm = TRUE) <= tol)
+    if(max(abs(diag(M[-1,-ncol(M)]))) <= tol)
       break
   }
   if(i < n){
@@ -60,7 +60,7 @@ eigenvalues <- function(M, n = 1000, tol = 1e-3){ # P in case of symmetric M con
     M <- QR$R %*% QR$Q
     new_M <- diag(M)
     P <- P %*% QR$Q
-    if(sum((new_M - old_M)^2, na.rm = TRUE) <= tol)
+    if(max(abs(diag(M[-1,-ncol(M)]))) <= tol)
       break
   }
   if(i < n){
@@ -75,7 +75,7 @@ eigenvalues <- function(M, n = 1000, tol = 1e-3){ # P in case of symmetric M con
   }
   names(eigenvals) <- NULL
   if(ncol(M) > 2){
-    P <- hess$Q %*% P
+    P <- t(hess$Q) %*% P
   }
   eigenvects <- Solve.Eigenvect(M, eigenvals, P)
   return(list("eigenvalues" = eigenvals, "eigenvectors" = eigenvects))
@@ -117,7 +117,7 @@ eigenvalues <- function(M, n = 1000, tol = 1e-3){ # P in case of symmetric M con
     M <- QR$R %*% QR$Q + diag(shift, nrow(M))
     new_M <- diag(M)
     P <- P %*% QR$Q
-    if(sum((new_M - old_M)^2, na.rm = TRUE) <= tol)
+    if(max(abs(diag(M[-1,-ncol(M)]))) <= tol)
       break
   }
   if(i < n){
@@ -132,8 +132,9 @@ eigenvalues <- function(M, n = 1000, tol = 1e-3){ # P in case of symmetric M con
   }
   names(eigenvals) <- NULL
   if(ncol(M) > 2){
-    P <- hess$Q %*% P
+    P <- t(hess$Q) %*% P
   }
   eigenvects <- Solve.Eigenvect(M, eigenvals, P)
   return(list("eigenvalues" = eigenvals, "eigenvectors" = eigenvects))
 }
+
