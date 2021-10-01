@@ -10,7 +10,7 @@ The Hessenberg Reduction of a Matrix and the QR-Decomposition of a Matrix are al
 For Both the above Reduction and Decompositions the Householder Matrices are used.
 
 Usage(**Recommended**):
- - Run the **Eigenvalues_of_Covariance_Matrix.R** or **Eigenvalue_Matrix.R R Scrpit** Files from **RStudio**.
+ - Run the **Eigenvalues_of_Covariance_Matrix.R**(which computes the covariance matrix from the input matrix and finds it's eigenvalues and eigenvectors) or **Eigenvalue_Matrix.R R Scrpit**(which finds the eigenvalues and eigenvectors of the input matrix) Files from **RStudio**.
  - Execute All the Lines of Code from the Script Files in RStudio. In this way we can change the input parameters of the function for better result.
 
 Alternate Usage:
